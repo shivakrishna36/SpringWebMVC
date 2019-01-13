@@ -14,7 +14,7 @@
 		<td><input type="number" name="accountNumber"/></td>
 	</tr>
 	<tr>
-		<td><label>Enter amount to deposit</label></td>
+		<td><label>Enter amount to withdraw</label></td>
 		<td><input type="number" name="accountBalance"/></td>
 	</tr>
 	<tr><td><input type="submit" value="withdraw"></td></tr>

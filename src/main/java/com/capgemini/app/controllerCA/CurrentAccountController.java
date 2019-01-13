@@ -1,5 +1,9 @@
 package com.capgemini.app.controllerCA;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -15,18 +19,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.capgemini.app.account.CurrentAccount;
 import com.capgemini.app.account.SavingsAccount;
 import com.capgemini.app.account.service.CurrentAccountService;
+import com.capgemini.app.controller.validation.CurrentAccountValidation;
 import com.capgemini.app.exception.AccountNotFoundException;
 
 @Controller
 public class CurrentAccountController {
 
 	private static Logger logger = Logger.getLogger(CurrentAccountController.class.getName());
+	int count = 1;
 	
-	//@Autowired
-	//CurrentAccountValidation validation;
+	@Autowired
+	CurrentAccountValidation validation;
 	
 	
-	  @Autowired private CurrentAccountService service;
+	  @Autowired 
+	  private CurrentAccountService service;
 	 
 	  @RequestMapping("/getAllAccounts") 
 	  public String getAllAccounts(Model model) throws ClassNotFoundException, SQLException 
@@ -83,7 +90,7 @@ public class CurrentAccountController {
 	@RequestMapping(value= "/createNewAccount", method= RequestMethod.POST)
 	public String addNewAccount(@ModelAttribute("account") CurrentAccount account,BindingResult result) throws ClassNotFoundException, SQLException
 	{
-		//validation.validate(account, result);
+		validation.validate(account, result);
 		if(result.hasErrors())
 		{
 			return "createCurrentAccount";
@@ -167,9 +174,91 @@ public class CurrentAccountController {
 	@RequestMapping("/CurrentsortByName")
 	public String sortByName(Model model) throws ClassNotFoundException, SQLException
 	{
-		List<CurrentAccount> account = service.sortByAccountHolderName();
-		model.addAttribute("account", account);
-		return "sortByCurrentName";
+		/*
+		 * List<CurrentAccount> account = service.sortByAccountHolderName();
+		 * model.addAttribute("account", account); return "sortByCurrentName";
+		 */
+		
+		count++;
+		Collection<CurrentAccount> accountsName;
+			accountsName = service.getAllCurrentAccounts();
+			ArrayList<CurrentAccount> accountsNameList = new ArrayList<CurrentAccount>(accountsName);
+			Collections.sort(accountsNameList, new Comparator<CurrentAccount>() {
+				@Override
+				public int compare(CurrentAccount arg0, CurrentAccount arg1) {
+					int result =  arg0.getBankAccount().getAccountHolderName().compareTo(arg1.getBankAccount().getAccountHolderName());
+				if(count %2 ==0)
+					return result;
+				
+				else 
+					return -result;
+				}
+			});
+			model.addAttribute("accounts", accountsNameList);
+		return "sortingCurrent";
 	}
+	
+	@RequestMapping("/sortByCurrentNumber")
+	public String sortByNumber(Model model) throws ClassNotFoundException, SQLException
+	{
+		count++;
+		Collection<CurrentAccount> accountsNumber;
+		accountsNumber = service.getAllCurrentAccounts();
+		ArrayList<CurrentAccount> accountsNameList = new ArrayList<CurrentAccount>(accountsNumber);
+		Collections.sort(accountsNameList, new Comparator<CurrentAccount>() {
+			@Override
+			public int compare(CurrentAccount arg0, CurrentAccount arg1) {
+				int result =  arg0.getBankAccount().getAccountNumber()- arg1.getBankAccount().getAccountNumber();
+			if(count %2 ==0)
+				return result;
+			
+			else 
+				return -result;
+			}
+		});
+		model.addAttribute("accounts", accountsNameList);
+		return "sortingCurrent";
+	}
+	
+	@RequestMapping("/sortByCurrentBalance")
+	public String sortByBalance(Model model) throws ClassNotFoundException, SQLException
+	{
+		count++;
+		Collection<CurrentAccount> accountsbalance;
+			accountsbalance = service.getAllCurrentAccounts();
+			ArrayList<CurrentAccount> accountsNameList = new ArrayList<CurrentAccount>(accountsbalance);
+			Collections.sort(accountsNameList, new Comparator<CurrentAccount>() {
+				public int compare(CurrentAccount one,CurrentAccount two){
+					int result = (int) (one.getBankAccount().getAccountBalance() - two.getBankAccount().getAccountBalance());
+				if(count%2 == 0)
+					return result;
+				else
+					return -result;
+				}
+			});
+			model.addAttribute("accounts", accountsNameList);
+			return "sortingCurrent";
+	}
+	
+	@RequestMapping("/sortByOdlimit")
+	public String sortBySalaried(Model model) throws ClassNotFoundException, SQLException
+	{
+		count++;
+		Collection<CurrentAccount> salaried;
+			salaried = service.getAllCurrentAccounts();
+			ArrayList<CurrentAccount> accountsNameList = new ArrayList<CurrentAccount>(salaried);
+			Collections.sort(accountsNameList, new Comparator<CurrentAccount>() {
+				public int compare(CurrentAccount one,CurrentAccount two){
+					int result = (int) (one.getOdlimit()-two.getOdlimit());
+				if(count%2 == 0)
+					return result;
+				else
+					return -result;
+				}
+			});
+			model.addAttribute("accounts", accountsNameList);
+			return "sortingCurrent";
+	}
+	
 }
 

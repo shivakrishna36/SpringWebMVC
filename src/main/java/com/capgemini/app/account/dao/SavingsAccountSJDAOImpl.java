@@ -87,7 +87,7 @@ public class SavingsAccountSJDAOImpl implements SavingsAccountDAO {
 
 	@Override
 	public List<SavingsAccount> sortByAccountHolderName() {
-		return jdbcTemplate.query("SELECT * from account ORDER BY account_hn", new SavingsAccountMapper());
+		return jdbcTemplate.query("SELECT * from account WHERE salary = ? OR salary= ? ORDER BY account_hn",new Object[] {0,1}, new SavingsAccountMapper());
 	}
 
 	@Override

@@ -1,6 +1,10 @@
 package com.capgemini.app.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,6 +26,7 @@ import com.capgemini.app.exception.AccountNotFoundException;
 public class SavingsAccountController {
 
 	private static Logger logger = Logger.getLogger(SavingsAccountController.class.getName());
+	int count = 1;
 	
 	@Autowired
 	SavingsAccountValidation validation;
@@ -87,9 +92,7 @@ public class SavingsAccountController {
 		{
 			return "createSavingsAccount";
 		}
-		logger.info(""+account.getBankAccount().getAccountBalance());
 		service.createNewAccount(account.getBankAccount().getAccountHolderName(),account.getBankAccount().getAccountBalance(),account.isSalary());
-		logger.info(""+account.getBankAccount().getAccountBalance()+account.getBankAccount().getAccountHolderName());
 		return "redirect:getAll";
 	}
 	
@@ -145,7 +148,6 @@ public class SavingsAccountController {
 	{
 		SavingsAccount account = service.getAccountById(accountNumber);
 		service.withdraw(account, amount);
-		System.out.println(account.getBankAccount().getType());
 		return "redirect:getAll";
 	}
 	
@@ -167,8 +169,90 @@ public class SavingsAccountController {
 	@RequestMapping("/sortByName")
 	public String sortByName(Model model) throws ClassNotFoundException, SQLException
 	{
-		List<SavingsAccount> account = service.sortByAccountHolderName();
-		model.addAttribute("account", account);
+		
+		  /*List<SavingsAccount> account = service.sortByAccountHolderName();
+		  model.addAttribute("account", account); return "sortByName";*/
+		 
+		
+		count++;
+		Collection<SavingsAccount> accountsName;
+			accountsName = service.getAllSavingsAccount();
+			ArrayList<SavingsAccount> accountsNameList = new ArrayList<SavingsAccount>(accountsName);
+			Collections.sort(accountsNameList, new Comparator<SavingsAccount>() {
+				@Override
+				public int compare(SavingsAccount arg0, SavingsAccount arg1) {
+					int result =  arg0.getBankAccount().getAccountHolderName().compareTo(arg1.getBankAccount().getAccountHolderName());
+				if(count %2 ==0)
+					return result;
+				
+				else 
+					return -result;
+				}
+			});
+			model.addAttribute("account", accountsNameList);
 		return "sortByName";
 	}
+	
+	@RequestMapping("/sortByAccountNumber")
+	public String sortByNumber(Model model) throws ClassNotFoundException, SQLException
+	{
+		count++;
+		Collection<SavingsAccount> accountsNumber;
+		accountsNumber = service.getAllSavingsAccount();
+		ArrayList<SavingsAccount> accountsNameList = new ArrayList<SavingsAccount>(accountsNumber);
+		Collections.sort(accountsNameList, new Comparator<SavingsAccount>() {
+			@Override
+			public int compare(SavingsAccount arg0, SavingsAccount arg1) {
+				int result =  arg0.getBankAccount().getAccountNumber()- arg1.getBankAccount().getAccountNumber();
+			if(count %2 ==0)
+				return result;
+			
+			else 
+				return -result;
+			}
+		});
+		model.addAttribute("account", accountsNameList);
+		return "sortByName";
+	}
+	
+	@RequestMapping("/sortByBalance")
+	public String sortByBalance(Model model) throws ClassNotFoundException, SQLException
+	{
+		count ++;
+		Collection<SavingsAccount> accountsbalance;
+			accountsbalance = service.getAllSavingsAccount();
+			ArrayList<SavingsAccount> accountsNameList = new ArrayList<SavingsAccount>(accountsbalance);
+			Collections.sort(accountsNameList, new Comparator<SavingsAccount>() {
+				public int compare(SavingsAccount one,SavingsAccount two){
+					int result = (int) (one.getBankAccount().getAccountBalance() - two.getBankAccount().getAccountBalance());
+				if(count%2 == 0)
+					return result;
+				else
+					return -result;
+				}
+			});
+			model.addAttribute("account", accountsNameList);
+			return "sortByName";
+	}
+	
+	@RequestMapping("/sortBySalaried")
+	public String sortBySalaried(Model model) throws ClassNotFoundException, SQLException
+	{
+		count ++;
+		Collection<SavingsAccount> salaried;
+			salaried = service.getAllSavingsAccount();
+			ArrayList<SavingsAccount> accountsNameList = new ArrayList<SavingsAccount>(salaried);
+			Collections.sort(accountsNameList, new Comparator<SavingsAccount>() {
+				public int compare(SavingsAccount one,SavingsAccount two){
+					int result = Boolean.compare(one.isSalary(),two.isSalary());
+				if(count%2 == 0)
+					return result;
+				else
+					return -result;
+				}
+			});
+			model.addAttribute("account", accountsNameList);
+			return "sortByName";
+	}
+	
 }

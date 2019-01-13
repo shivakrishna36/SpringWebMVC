@@ -89,7 +89,7 @@ public class CurrentAccountSJDAOImpl implements CurrentAccountDAO {
 
 	@Override
 	public List<CurrentAccount> sortByAccountHolderName() {
-		return jdbcTemplate.query("SELECT * from account ORDER BY account_hn", new CurrentAccountMapper());
+		return jdbcTemplate.query("SELECT * from account WHERE odlimit >= ? ORDER BY account_hn",new Object[] {0}, new CurrentAccountMapper());
 	}
 
 	@Override

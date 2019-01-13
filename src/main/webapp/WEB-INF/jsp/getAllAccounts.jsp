@@ -11,11 +11,11 @@
 <table>
 
 <tr>
-		<th><a href="sortByAccountNumber">Account Number</a></th>
-		<th><a href="CurrentsortByName">Holder Name</a></th>		
-		<th><a href="sortByBalance">Balance</a></th>
-		<th><a href="sortBySalaried">Salaried</a></th>
-		<th>Over Draft Limit</th>
+		<th><a href="sortByCurrentNumber">Account Number</a></th>
+		<th><a href="CurrentsortByName">Account Holder Name</a></th>		
+		<th><a href="sortByCurrentBalance">Account Balance</a></th>
+		<th>Salaried</th>
+		<th><a href="sortByOdlimit">Over Draft Limit</a></th>
 		<th>Type Of Account</th>
 	</tr>
 

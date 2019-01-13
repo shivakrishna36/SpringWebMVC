@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.capgemini.app.account.SavingsAccount;
+import com.capgemini.app.account.CurrentAccount;
 
 @Component
-public class SavingsAccountValidation implements Validator {
+public class CurrentAccountValidation implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -18,11 +18,10 @@ public class SavingsAccountValidation implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 
-		SavingsAccount account = (SavingsAccount) target;
-		if(account.getBankAccount().getAccountBalance()<100)
+		CurrentAccount account = (CurrentAccount) target;
+		if(account.getBankAccount().getAccountBalance()<0)
 		{
-			errors.rejectValue("bankAccount.accountBalance", "Double Value", "Balance must be above 100");
+			errors.rejectValue("bankAccount.accountBalance","Double Value","Balance must be above 0");
 		}
 	}
-
 }

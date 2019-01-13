@@ -4,7 +4,6 @@ public class BankAccount {
 	private int accountNumber;
 	private double accountBalance;
 	private String accountHolderName;
-	private String type;
 	private static int accountId;
 
 	/*
@@ -33,12 +32,11 @@ public class BankAccount {
 		this.accountBalance = accountBalance;
 	}
 
-	public BankAccount(int accountNumber, double accountBalance, String accountHolderName, String type) {
+	public BankAccount(int accountNumber, double accountBalance, String accountHolderName) {
 		
 		this.accountNumber = accountNumber;
 		this.accountBalance = accountBalance;
 		this.accountHolderName = accountHolderName;
-		this.type = type;
 	}
 
 
@@ -53,16 +51,6 @@ public class BankAccount {
 	public int getAccountNumber() {
 		return accountNumber;
 	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-
-	public String getType() {
-		return type;
-	}
-
 
 	public double getAccountBalance() {
 		return accountBalance;

@@ -18,11 +18,6 @@ public class CurrentAccount {
 			this.odlimit = odlimit;
 		}
 		
-		public CurrentAccount(int accountNumber, String accountHolderName, double accountBalance, String type,double odlimit) {
-			bankAccount = new BankAccount(accountNumber, accountHolderName, accountBalance);
-			this.odlimit = odlimit;
-		}
-		
 		public CurrentAccount() {
 			// TODO Auto-generated constructor stub
 		}
