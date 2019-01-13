@@ -59,6 +59,7 @@ public class SavingsAccountController {
 	{
 		SavingsAccount account = service.getAccountById(accountNumber);
 		service.updateAccount(account, name, salary);
+		logger.info("Updated successfully");
 		return "redirect:getAll";
 	}
 	
@@ -93,6 +94,7 @@ public class SavingsAccountController {
 			return "createSavingsAccount";
 		}
 		service.createNewAccount(account.getBankAccount().getAccountHolderName(),account.getBankAccount().getAccountBalance(),account.isSalary());
+		logger.info("Account created successfully");
 		return "redirect:getAll";
 	}
 	
@@ -106,6 +108,7 @@ public class SavingsAccountController {
 	public String deleteAccount(@RequestParam("accNUmber") int accountNumber) throws ClassNotFoundException, SQLException
 	{
 		service.deleteAccount(accountNumber);
+		logger.info("Account deleted successfully");
 		return "redirect:getAll";
 	}
 	
@@ -134,6 +137,7 @@ public class SavingsAccountController {
 	{
 		SavingsAccount account = service.getAccountById(accountNumber);
 		service.deposit(account, amount);
+		logger.info("Deposit success");
 		return "redirect:getAll";
 	}
 	
@@ -148,6 +152,7 @@ public class SavingsAccountController {
 	{
 		SavingsAccount account = service.getAccountById(accountNumber);
 		service.withdraw(account, amount);
+		logger.info("Withdraw success");
 		return "redirect:getAll";
 	}
 	
@@ -163,6 +168,7 @@ public class SavingsAccountController {
 		SavingsAccount senderAccount = service.getAccountById(sender);
 		SavingsAccount receiverAccount = service.getAccountById(receiver);
 		service.fundTransfer(senderAccount, receiverAccount, amount);
+		logger.info("Money transferred from account number"+senderAccount +"to"+receiverAccount+" successfully");
 		return "redirect:getAll";
 	}
 	

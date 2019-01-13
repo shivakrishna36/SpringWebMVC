@@ -19,9 +19,30 @@ public class CurrentAccountValidation implements Validator {
 	public void validate(Object target, Errors errors) {
 
 		CurrentAccount account = (CurrentAccount) target;
-		if(account.getBankAccount().getAccountBalance()<0)
+		String name = account.getBankAccount().getAccountHolderName();
+		if(account.getBankAccount().getAccountBalance()<1000)
 		{
-			errors.rejectValue("bankAccount.accountBalance","Double Value","Balance must be above 0");
+			errors.rejectValue("bankAccount.accountBalance", "Double Value", "Balance must be above 1000");
+		}
+		
+		if(name!=null || name.isEmpty())
+		{
+			if(name.length()<2)
+			{
+				errors.rejectValue("bankAccount.accountHolderName", "Input mismatch", "Please  enter atleast two characters");
+			}
+			
+			
+			if(!name.matches("^[a-zA-Z\\s]*$"))
+			{
+				errors.rejectValue("bankAccount.accountHolderName", "Input mismatch", "Enter only characters");
+			}
+			
+		}
+		
+		if(account.getOdlimit()<100)
+		{
+			errors.rejectValue("odlimit", "Double Value", "odlimit must be above 100");
 		}
 	}
 }

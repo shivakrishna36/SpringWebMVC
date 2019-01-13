@@ -7,10 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="closeCurrentAccount">
-Enter the account Number:<input type="number" name="accNUmber"><br>
-<input type="submit" value="delete Account">
-</form>
-<%@ include file="exit.jsp" %>
-</body>`
+<a href = "index.jsp">GOTO HOME</a>
+</body>
 </html>

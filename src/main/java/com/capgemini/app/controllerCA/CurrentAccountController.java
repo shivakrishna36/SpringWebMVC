@@ -62,6 +62,7 @@ public class CurrentAccountController {
 	{
 		CurrentAccount account = service.getAccountById(accountNumber);
 		service.updateAccount(account, name, odlimit);
+		logger.info("Updated successfully");
 		return "redirect:getAllAccounts";
 	}
 	
@@ -98,6 +99,7 @@ public class CurrentAccountController {
 		
 		service.createNewAccount(account.getBankAccount().getAccountHolderName(), account.getBankAccount().getAccountBalance(), account.getOdlimit());
 		logger.info("Account created:");
+		logger.info("Account created successfully");
 		return "redirect:getAllAccounts";
 	}
 	
@@ -111,6 +113,7 @@ public class CurrentAccountController {
 	public String deleteAccount(@RequestParam("accNUmber") int accountNumber) throws ClassNotFoundException, SQLException
 	{
 		service.deleteAccount(accountNumber);
+		logger.info("Account deleted successfully");
 		return "redirect:getAllAccounts";
 	}
 	
@@ -139,6 +142,7 @@ public class CurrentAccountController {
 	{
 		CurrentAccount account = service.getAccountById(accountNumber);
 		service.deposit(account, amount);
+		logger.info("Money Deposited successfully");
 		return "redirect:getAllAccounts";
 	}
 	
@@ -153,6 +157,7 @@ public class CurrentAccountController {
 	{
 		CurrentAccount account = service.getAccountById(accountNumber);
 		service.withdraw(account, amount);
+		logger.info("withdraw success");
 		return "redirect:getAllAccounts";
 	}
 	
@@ -168,6 +173,7 @@ public class CurrentAccountController {
 		CurrentAccount senderAccount = service.getAccountById(sender);
 		CurrentAccount receiverAccount = service.getAccountById(receiver);
 		service.fundTransfer(senderAccount, receiverAccount, amount);
+		logger.info("Money transferred from account number"+senderAccount +"to"+receiverAccount+" successfully");
 		return "redirect:getAllAccounts";
 	}
 	
